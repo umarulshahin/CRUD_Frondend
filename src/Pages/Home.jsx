@@ -1,10 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../Components/Header";
 import edit_icon from "../assets/icons8-edit.gif";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import useGetUserdata from "../Hooks/useGetUserdata";
+import avatar from "../assets/Avatar-Profile.png"
 
 const Home = () => {
-  const [profileImage, setProfileImage] = useState();
+  const [profileImage, setProfileImage] = useState(avatar);
+  const navigate=useNavigate()
+  const user=useSelector((state)=>state.User_data.user)
+  const {Get_data}=useGetUserdata()
+  const data=useSelector((state)=> state.User_data.user_details)
+  const {username,email,phone,profile}=data[0]
 
+  useEffect(()=>{
+    Get_data()
+    if (!user){
+        navigate("login/")
+    }
+
+  },[])
   const handleImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -19,11 +35,11 @@ const Home = () => {
   };
   return (
     <div>
-      <div className=" flex justify-center py-6 shadow-2xl">
+      <div className=" flex justify-center py-6 shadow-xl">
         <Header />
       </div>
       <div className="flex h-1/2 justify-center m-10 items-center">
-        <div className=" p-20 rounded-lg bg-white shadow-2xl flex flex-col items-center">
+        <div className=" p-20 rounded-lg bg-gray-300 shadow-2xl flex flex-col items-center">
           <img
             src={profileImage}
             alt="User Profile"
@@ -36,10 +52,10 @@ const Home = () => {
             className="hidden border"
             onChange={handleImageChange}
           />
-          <ul className="text-center space-y-2">
-            <li className="text-lg font-medium">Name</li>
-            <li className="text-lg font-medium">Email</li>
-            <li className="text-lg font-medium">Number</li>
+          <ul className="text-center space-y-4">
+            <li className="text-lg font-medium">Name :{username}</li>
+            <li className="text-lg font-medium">{email}</li>
+            <li className="text-lg font-medium">{phone}</li>
           </ul>
           <div>
             <img
