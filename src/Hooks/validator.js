@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { signup_URLS } from "../Utils/Constants";
-import axios, { all } from "axios";
+import axios from "axios";
 import { img_upload_URLS } from "../Redux/Constants";
 import Cookies from "js-cookie"
 import useGetUserdata from "./useGetUserdata";

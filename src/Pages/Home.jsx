@@ -11,13 +11,14 @@ import useUpdateToken from "../Hooks/useUpdateToken.js";
 import { Image_validate } from "../Hooks/validator.js";
 import { toast } from "react-toastify";
 import { backendUrl } from "../Redux/Constants.js";
+import UserEditModal from "../Components/UserEditModal.jsx";
 
 const Home = () => {
   const navigate=useNavigate()
   const user=useSelector((state)=>state.User_data.user)
   const {Get_data}=useGetUserdata()
   const data=useSelector((state)=> state.User_data.user_details)
-  const {username,email,phone,profile}=data[0]
+  const {username,email,phone,profile}=data
   const [profileImage, setProfileImage] = useState(avatar);
   const {RefreshToken}=useUpdateToken()
   const {img_validate}=Image_validate()
@@ -72,9 +73,7 @@ const Home = () => {
     setIsModalOpen(true);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+ 
   return (
     <div>
       <div className=" flex justify-center py-6 shadow-xl">
@@ -131,48 +130,7 @@ const Home = () => {
       </div>
 
        {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
-          <div className="bg-white p-8 rounded shadow-lg w-1/4">
-            <h2 className="text-lg font-bold mb-4">Edit Profile</h2>
-            <form >
-              <div className="mb-4">
-                <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  
-                  
-                  className="mt-1 block h-8 w-full border-gray-300 rounded-md shadow-xl focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  
-                  className="mt-1 h-8 w-full block border-gray-300 rounded-md shadow-xl focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone</label>
-                <input
-                  type="text"
-                  id="phone"
-                  name="phone"
-                 
-                  className="mt-1 block h-8 w-full border-gray-300 rounded-md shadow-xl focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                />
-              </div>
-              <div className="mt-6">
-                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save Changes</button>
-                <button type="button" className="ml-2 px-4 py-2 border border-gray-300 rounded hover:bg-gray-400 text-gray-600 " onClick={closeModal}>Cancel</button>
-              </div> 
-            </form>
-          </div>
-        </div>
+        <UserEditModal  setIsModalOpen={setIsModalOpen} />
       )}
     </div>
   );

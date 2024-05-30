@@ -21,8 +21,8 @@ const useGetUserdata = () => {
 
             if (response.status===200){
                 
-                console.log(response.data,"get method")
-                dispatch(addUserDetails(response.data))
+                console.log(response.data[0],"get method")
+                dispatch(addUserDetails(response.data[0]))
 
             }
         }
