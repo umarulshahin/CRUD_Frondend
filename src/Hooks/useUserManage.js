@@ -36,8 +36,7 @@ const useUserManage = () => {
                     })
             
                     if (response.status===200){
-                    console.log(response.data)
-                    console.log("yes fine")
+                    
 
                     const token =JSON.stringify(response.data)
                     Cookies.set("UserCookie",token,{expires:30})
@@ -45,6 +44,8 @@ const useUserManage = () => {
 
                     dispatch(addUser(details))    
                     navigate("/")
+                    toast.success("Sign in in successfully ")
+
 
                     } 
                 }catch(error){

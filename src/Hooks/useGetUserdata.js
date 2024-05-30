@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { toast } from "react-toastify"
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch} from 'react-redux'
 import { user_data_URLS } from '../Utils/Constants'
 import Cookies from "js-cookie"
 import { addUserDetails } from '../Redux/SliceUser'
@@ -11,7 +11,6 @@ const useGetUserdata = () => {
     const Get_data= async()=>{
         const raw_token=Cookies.get('UserCookie')
         const token=JSON.parse(raw_token)
-        console.log(token.access)
         if (token){
             const response= await axios.get(user_data_URLS,{
                 headers:{
@@ -24,7 +23,6 @@ const useGetUserdata = () => {
                 
                 console.log(response.data,"get method")
                 dispatch(addUserDetails(response.data))
-                toast.success("Sign in in successfully ")
 
             }
         }
