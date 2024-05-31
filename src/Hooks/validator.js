@@ -6,7 +6,7 @@ import Cookies from "js-cookie"
 import useGetUserdata from "./useGetUserdata";
 import { useNavigate } from "react-router-dom";
 
-/Sign up validation and user creation/
+// /Sign up validation and user creation/
 
 const Signup_validator = (
   username,
@@ -66,15 +66,22 @@ const Signup_validator = (
         );
 
         if (response.status === 200) {
-          toast.success("Successfully account created");
-          if(admin){
+
+          if (response.data.error){
+            console.log(response.data.error.non_field_errors[0])
+            toast.warning(response.data.error.non_field_errors[0]);
+            return;
+          }
+          else if(admin){
             console.log(response.data)
             navigate(admin_details_URLS,admin)
-            console.log("working")
+            toast.success("Successfully account created");
+
           }else{
             navigate("/login");
-
+            toast.success("Successfully account created");
           }
+
         } else if (response.status === 404) {
           toast.warning("Somthing is wrong");
         }
@@ -92,7 +99,7 @@ const Signup_validator = (
   }
 };
 
-/ image uploading /
+// / image uploading /
 
 const Image_validate = () => {
 

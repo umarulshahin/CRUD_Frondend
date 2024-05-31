@@ -4,7 +4,8 @@ const UserSlice = createSlice({
   name: "User_data",
   initialState: {
     user: '', 
-    user_details:{}
+    user_details:{},
+
   },
   reducers: {
     addUser: (state, action) => {

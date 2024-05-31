@@ -13,7 +13,7 @@ const Admin_home = () => {
   const admin_data = useSelector((state) => state.Admin_data.admin);
   const user_data = useSelector((state) => state.Admin_data.admin_details);
   const { RefreshToken } = useUpdateToken();
-  console.log(user_data);
+  console.log(user_data,"user data");
   const navigate = useNavigate();
   const { Get_data } = useGetUserdata();
   const [admin, setadmin] = useState(true);
@@ -37,7 +37,7 @@ const Admin_home = () => {
     return () => {
       clearInterval(interval);
     };
-  }, [loading, admin_data]);
+  }, [loading]);
 
   useEffect(() => {
     Get_data(admin_details_URLS, admin);
@@ -50,7 +50,7 @@ const Admin_home = () => {
     }
   }, []);
 
- 
+
 
   const handleOpenModal = () => {
     setModalOpen(!isModalOpen);

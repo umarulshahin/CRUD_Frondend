@@ -7,12 +7,11 @@ import { addAdmin } from '../Redux/AdminSlice';
 
 const Header_admin = () => {
     
-  const user=useSelector((state)=>state.User_data.user)
+  const user=useSelector((state)=>state.Admin_data.admin)
   const navigate=useNavigate()
   const dispatch =useDispatch() 
 
   const handleLogout=()=>{
-
     if (user){
         dispatch(addAdmin(null))
         Cookies.remove("AdminCookie")
