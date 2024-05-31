@@ -1,10 +1,12 @@
 import { toast } from "react-toastify";
-import { signup_URLS } from "../Utils/Constants";
+import { signup_URLS, user_data_URLS } from "../Utils/Constants";
 import axios from "axios";
-import { img_upload_URLS } from "../Redux/Constants";
+import { admin_details_URLS, img_upload_URLS, user_delete_URLS } from "../Redux/Constants";
 import Cookies from "js-cookie"
 import useGetUserdata from "./useGetUserdata";
 import { useNavigate } from "react-router-dom";
+
+/Sign up validation and user creation/
 
 const Signup_validator = (
   username,
@@ -13,8 +15,10 @@ const Signup_validator = (
   phone,
   password,
   con_password,
-  navigate
+  navigate,
+  admin=false
 ) => {
+
   if (username && lastname && email && phone && password && con_password) {
     const isUsername = /^[A-Za-z][A-Za-z\s-]*$/.test(username);
     const isLastname = /^[A-Za-z][A-Za-z\s-]*$/.test(lastname);
@@ -63,7 +67,14 @@ const Signup_validator = (
 
         if (response.status === 200) {
           toast.success("Successfully account created");
-          navigate("/login");
+          if(admin){
+            console.log(response.data)
+            navigate(admin_details_URLS,admin)
+            console.log("working")
+          }else{
+            navigate("/login");
+
+          }
         } else if (response.status === 404) {
           toast.warning("Somthing is wrong");
         }
@@ -80,6 +91,8 @@ const Signup_validator = (
     return "Please Enter valid credentials";
   }
 };
+
+/ image uploading /
 
 const Image_validate = () => {
 
@@ -103,22 +116,14 @@ const Image_validate = () => {
             if (response.status===200){
 
                 console.log(response.data)
-                Get_data()
+                Get_data(user_data_URLS)
                 navigate("/")
                 toast.success("Image Update succesfully")
-
-
-
             }
         }catch(error){
             console.log(error)
             toast.warning(error)
-
-
         }
-      
-
-
     }
 
   };
@@ -126,6 +131,44 @@ const Image_validate = () => {
   return { img_validate };
 };
 
-export { Image_validate };
+const useUser_delete=()=>{
+   const {Get_data}=useGetUserdata()    
+
+  const user_delete  = async (id)=>{
+
+    const raw_token=Cookies.get('AdminCookie')
+    const ref_token=JSON.parse(raw_token)
+   
+    if (!ref_token){
+      return ;
+    }
+    try{
+
+      const response= await axios.delete(user_delete_URLS,{
+        headers:{
+          "Content-Type": "application/json",
+          'Authorization':`Bearer ${ref_token.access}`,
+  
+        },
+        data: { id } 
+      })
+      if (response.status===200){
+        
+        toast.success("User Deleted ")
+        Get_data(admin_details_URLS,true)
+
+      }
+    }catch(error){
+        
+      console.log(error)
+    }
+   
+  }
+
+  return {user_delete}
+}
+
+export { Image_validate,useUser_delete };
+     
 
 export default Signup_validator;

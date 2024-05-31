@@ -13,3 +13,5 @@ export const backendUrl = 'http://127.0.0.1:8000';
 export const user_update_URLS="http://127.0.0.1:8000/Api/updateUser/";
 
 export const admin_details_URLS="http://127.0.0.1:8000/Api/admin_dashboard/";
+
+export const user_delete_URLS="http://127.0.0.1:8000/Api/userdelete/";

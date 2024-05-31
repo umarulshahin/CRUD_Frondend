@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { toast } from "react-toastify"
 import { useDispatch} from 'react-redux'
-import { user_data_URLS } from '../Utils/Constants'
 import Cookies from "js-cookie"
 import { addUserDetails } from '../Redux/SliceUser'
 import { addAdmindetails } from '../Redux/AdminSlice'
