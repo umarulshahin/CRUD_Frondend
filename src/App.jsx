@@ -9,6 +9,7 @@ import Admin from './Pages/Admin'
 import { appStore, persist } from './Redux/Store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import Admin_home from './Pages/Admin_home';
 
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
         <Route path='/login' element={<Login/>}/>
         <Route path='/signup' element={<Signup/>}/>
         <Route path='/Admin' element={<Admin/>} />
+        <Route path='/Admin_home' element={<Admin_home />}/>
        </Routes>
        <ToastContainer />
       </BrowserRouter>

@@ -4,7 +4,7 @@ import edit_icon from "../assets/icons8-edit-50.png";
 import email_icon from "../assets/icons8-email-50.png";
 import phone_icon from "../assets/icons8-phone-50.png";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useGetUserdata from "../Hooks/useGetUserdata.js";
 import avatar from "../assets/Avatar-Profile.png"
 import useUpdateToken from "../Hooks/useUpdateToken.js";
@@ -12,6 +12,8 @@ import { Image_validate } from "../Hooks/validator.js";
 import { toast } from "react-toastify";
 import { backendUrl } from "../Redux/Constants.js";
 import UserEditModal from "../Components/UserEditModal.jsx";
+import { user_data_URLS } from "../Utils/Constants.js";
+import { addUser } from "../Redux/SliceUser.js";
 
 const Home = () => {
   const navigate=useNavigate()
@@ -24,11 +26,13 @@ const Home = () => {
   const {img_validate}=Image_validate()
   const [loading,setLoading]=useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch=useDispatch()
 
   useEffect(()=>{
      
     
     if (loading){
+
       RefreshToken(setLoading,loading)
 
     }
@@ -43,9 +47,14 @@ const Home = () => {
   },[loading,user])
 
   useEffect(()=>{
-    Get_data()
-    if (!user){
+    
+    Get_data(user_data_URLS)
+
+    if (!user ){
         navigate("login/")
+    }else if(user.role){
+      dispatch(addUser())
+      navigate("login/")
     }
    
   },[])

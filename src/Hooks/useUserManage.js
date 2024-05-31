@@ -6,12 +6,13 @@ import {jwtDecode} from 'jwt-decode'
 import {  addUser } from "../Redux/SliceUser"
 import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom"
+import { addAdmin } from "../Redux/AdminSlice"
 
 const useUserManage = () => {
   
     const dispatch=useDispatch()
     const navigate=useNavigate()
-    const get_token = async (email,password)=>{
+    const get_token = async (email,password,admin=false)=>{
 
         if(email && password){
 
@@ -25,7 +26,6 @@ const useUserManage = () => {
                     email:email,
                     password:password
             
-            
                 }
                 
                 try{
@@ -37,16 +37,35 @@ const useUserManage = () => {
             
                     if (response.status===200){
                     
+                    
+                    if (!admin){
+                        const token =JSON.stringify(response.data)
+                        Cookies.set("UserCookie",token,{expires:30})
+                        const details=jwtDecode(response.data.access)
+                        
+                        if(details.role){
+                            toast.warning("SuperUser not Allowed .only for Users")
 
-                    const token =JSON.stringify(response.data)
-                    Cookies.set("UserCookie",token,{expires:30})
-                    const details=jwtDecode(response.data.access)
+                        } else{
+                            dispatch(addUser(details))    
+                            navigate("/")
+                            toast.success("Sign in in successfully ")
+                        }
+                       
+                    }else{
+                        const token =JSON.stringify(response.data)
+                        Cookies.set("AdminCookie",token,{expires:30})
+                        const details=jwtDecode(response.data.access)
+                        console.log(details,"token")
+                        if (details.role){
+                            dispatch(addAdmin(details))    
+                            navigate("/Admin_home")
+                            toast.success("Sign in in successfully ")
+                        }else{
+                            toast.warning("User not Superuser.only superuser access ")
 
-                    dispatch(addUser(details))    
-                    navigate("/")
-                    toast.success("Sign in in successfully ")
-
-
+                        } 
+                    }
                     } 
                 }catch(error){
                     console.log(error.data)
