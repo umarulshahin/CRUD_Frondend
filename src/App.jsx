@@ -15,7 +15,7 @@ const App = () => {
   return (
     <div>
       <Provider store={appStore}>
-        <PersistGate loading={null} persistStore={persist}>
+        <PersistGate loading={null} persistor={persist}>
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home />} />

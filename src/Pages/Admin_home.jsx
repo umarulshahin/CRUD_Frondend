@@ -77,6 +77,7 @@ const Admin_home = () => {
     setfilteruser(filter_data);
 
   };
+  console.log(user_data,'user data')
   return (
     <div className="h-screen w-screen">
       <div className=" flex justify-center py-6 shadow-xl">
@@ -106,7 +107,7 @@ const Admin_home = () => {
               </tr>
             </thead>
             <tbody>
-              {(search_text ? filteruser:user_data).map((user) => (
+              {user_data.length > 0 ? (search_text ? filteruser:user_data).map((user) => (
                 <tr key={user.id}>
                   <td className="py-2 px-10 border-b border-gray-400">
                     {user.username}
@@ -132,7 +133,7 @@ const Admin_home = () => {
                     </button>
                   </td>
                 </tr>
-              ))}
+              )):null}
             </tbody>
           </table>
           <div className="w-full flex justify-end mt-6">
