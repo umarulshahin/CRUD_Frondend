@@ -86,6 +86,7 @@ const Signup_validator = (
           toast.warning("Somthing is wrong");
         }
       } catch (error) {
+        console.log(error,'error in signup')
         if (error.response) {
           console.error("Response Status:", error.response.status);
           console.error("Response Data:", error.response.data);

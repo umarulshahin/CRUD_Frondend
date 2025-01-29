@@ -1,5 +1,5 @@
 import axios from "axios"
-import { signin_URLS } from "../Utils/Constants"
+import { signin_URLS, user_data_URLS, user_exel_URLS } from "../Utils/Constants"
 import { toast } from "react-toastify"
 import { useDispatch } from "react-redux"
 import {jwtDecode} from 'jwt-decode'
@@ -84,7 +84,39 @@ const useUserManage = () => {
             
             }
 
-    return{ get_token};
+    const UserExelData = async(data)=>{
+
+        try{
+          const response = await axios.post(user_exel_URLS,data,{
+            responseType: 'blob',  // This is crucial for binary data
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': '*/*'
+            }
+        })
+          if(response.status === 200){
+            const blob = new Blob([response.data], { 
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            });
+            
+            // Create and trigger download
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `user_details_${new Date().toISOString().slice(0,10)}.xlsx`;
+            document.body.appendChild(a);
+            a.click();
+            
+            // Cleanup
+            window.URL.revokeObjectURL(url);
+            a.remove();
+          }
+        }catch(error){
+            console.log(error,'user exel data error')
+        }
+    }
+
+    return{ get_token,UserExelData};
    
 }
 

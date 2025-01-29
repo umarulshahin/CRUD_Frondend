@@ -14,11 +14,13 @@ import { backendUrl } from "../Redux/Constants.js";
 import UserEditModal from "../Components/UserEditModal.jsx";
 import { user_data_URLS } from "../Utils/Constants.js";
 import { addUser } from "../Redux/SliceUser.js";
+import useUserManage from "../Hooks/useUserManage.js";
 
 const Home = () => {
   const navigate=useNavigate()
   const user=useSelector((state)=>state.User_data.user)
   const {Get_data}=useGetUserdata()
+  const {UserExelData} = useUserManage()
   const data=useSelector((state)=> state.User_data.user_details)
   const {username,email,phone,profile}=data
   const [profileImage, setProfileImage] = useState(avatar);
@@ -27,6 +29,7 @@ const Home = () => {
   const [loading,setLoading]=useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch=useDispatch()
+
 
   useEffect(()=>{
      
@@ -58,6 +61,10 @@ const Home = () => {
     }
    
   },[])
+
+  const handleExel=()=>{
+    UserExelData(user.user_id)
+  }
   const handleImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -127,7 +134,10 @@ const Home = () => {
                     {phone}
                 </li>
             </ul>
+            <button onClick={()=>handleExel()} className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Exel</button>
+
           <div>
+
             <img
               src={edit_icon}
               alt="Edit"
